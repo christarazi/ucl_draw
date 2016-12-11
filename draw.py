@@ -1,6 +1,10 @@
 '''
 This program runs a simulation of the Round of 16
 UEFA Champions League Draw of the 2016-2017 season.
+
+TODO:
+    Add functionality to compute the number of possible
+    draws as seen here: https://gist.github.com/joriki/4345452
 '''
 
 from collections import defaultdict
