@@ -1,8 +1,8 @@
 from flask import Flask, render_template, redirect, \
     url_for, request, flash, escape
 
-import os
-import draw         # Import simulator code
+import os, time
+import simulator # Import simulator code
 
 app = Flask(__name__)
 
@@ -19,8 +19,10 @@ def index():
             elif n < 1:
                 flash("Error: Number must be greater than zero.")
             else:
-                draws = draw.execute_simulation(n)
-                return render_template("results.html", draws=draws, n=n)
+                start = time.perf_counter()
+                draws = simulator.execute_simulation(n)
+                end = time.perf_counter()
+                return render_template("results.html", draws=draws, n=n, time=end-start)
         except Exception as e:
             print(e)
             flash("Error: Tricky tricky, only numbers are accepted here.")
@@ -34,6 +36,7 @@ def index():
 @app.context_processor
 def utility_processor():
     def format_odds(odds):
+        # Format floating point to 5 decimal places.
         return "{0:.5}".format(odds)
 
     return dict(format_odds=format_odds)

@@ -1,7 +1,8 @@
 {% extends "index.html" %}
 {% block body %}
 <div class=results>
-	<pre>Number of simulations: {{ n }}</pre><br>
+	<pre>Number of simulations: {{ n }}</pre>
+	<pre>Seconds taken: {{ time }}</pre>
 	<table class="pure-table pure-table-horizontal">
 		<thead>
 			<tr>
@@ -12,13 +13,13 @@
 			</tr>
 		</thead>
 		<tbody>
-		{% for match, count in draws.items() %}
-		{% if count != 0 %}
+		{% for match in draws|sort %}
+		{% if draws[match] != 0 %}
 			<tr>
 				<td>{{ match[0][2] }}</td>
 				<td>{{ match[1][2] }}</td>
-				<td>{{ count }}</td>
-				<td>{{ format_odds(count / n) }}</td>
+				<td>{{ draws[match] }}</td>
+				<td>{{ format_odds(draws[match] / n) }}</td>
 			</tr>
 		{% endif %}
 		{% endfor %}

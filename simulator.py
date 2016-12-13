@@ -81,11 +81,11 @@ def get_optimal_draw(vd, runners_up, winners):
     return ru, min(teams, key=teams.get)
 
 def simulate_draw():
-    # Make copies of the lists of teams before each simulation
-    # TODO: Maybe we can avoid this? Will speed things up.
-    tmp_valid_draws = copy.deepcopy(valid_draws)
-    tmp_group_runners = copy.deepcopy(group_runners)
-    tmp_group_winners = copy.deepcopy(group_winners)
+    # Make copies of the lists of teams before each simulation.
+    # Thanks to a comment on reddit for the suggestion.
+    tmp_group_winners = copy.copy(group_winners)
+    tmp_group_runners = copy.copy(group_runners)
+    tmp_valid_draws = copy.copy(valid_draws)
 
     while tmp_group_runners and tmp_group_winners:
         # When half-way complete, try to avoid conflicts
@@ -123,6 +123,6 @@ def execute_simulation(n):
     #                 "|", count, "/", n, "=", "{0:.5}".format(count / n))
     return draws
 
-if __name__ == "__main__":
-    execute_simulation()
+# if __name__ == "__main__":
+#     execute_simulation()
 
