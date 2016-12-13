@@ -12,8 +12,9 @@ app.secret_key = os.urandom(24)
 def index():
     if request.method == "POST":
         try:
-            draws = None
+            # Number of simulations
             n = int(escape(request.form["simulations"]))
+
             if n > 1000000:
                 flash("Error: 1,000,000 is the maximum number of simulations.")
             elif n < 1:

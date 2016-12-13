@@ -13,4 +13,6 @@ Check it out! https://ucldraw.herokuapp.com/
 
  - Add group stages
  - Add round of 8
+ - Add functionality to compute the number of possible
+ draws as seen here: https://gist.github.com/joriki/4345452
 
