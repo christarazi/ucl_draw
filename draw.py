@@ -32,13 +32,13 @@ group_runners = [
     ("H", "SPA", "Sevilla")
 ]
 
-if len(sys.argv) != 2:
-    print("Usage:", sys.argv[0], "<num of simulations>")
-    sys.exit(-1)
+# if len(sys.argv) != 2:
+#     print("Usage:", sys.argv[0], "<num of simulations>")
+#     sys.exit(-1)
 
 valid_draws = defaultdict(list) # Holds all valid draws
 draws = {}                      # Holds the count of the simulations
-n = int(sys.argv[1])            # Number of simulations
+# n = int(sys.argv[1])            # Number of simulations
 
 def init_draws():
     for winner in group_winners:
@@ -112,12 +112,17 @@ def simulate_draw():
 
 # -----------------------------------------------------------------------------
 
-init_draws()
-for i in range(n):
-    simulate_draw()
+def execute_simulation(n):
+    init_draws()
+    for i in range(n):
+        simulate_draw()
 
-for match, count in draws.items():
-    if count != 0:
-        print("{:18} {} {:18}".format(match[0][2], "vs", match[1][2]),
-                "|", count, "/", n, "=", "{0:.5}".format(count / n))
+    # for match, count in draws.items():
+    #     if count != 0:
+    #         print("{:18} {} {:18}".format(match[0][2], "vs", match[1][2]),
+    #                 "|", count, "/", n, "=", "{0:.5}".format(count / n))
+    return draws
+
+if __name__ == "__main__":
+    execute_simulation()
 

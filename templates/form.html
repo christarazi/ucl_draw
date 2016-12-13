@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block body %}
+<form class="pure-form pure-form-stacked" action="{{ url_for('index') }}" method=post>
+	<label for="simulations">
+	Number of simulations:
+	</label>
+	<input id="simulations" name="simulations" type="number">
+	<button type="submit" class="pure-button pure-button-primary">Run</button>
+</form>
+{% endblock %}

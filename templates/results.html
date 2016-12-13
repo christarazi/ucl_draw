@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block body %}
+<div class=results>
+	<pre>Number of simulations: {{ n }}</pre><br>
+	<table class="pure-table pure-table-horizontal">
+		<thead>
+			<tr>
+				<th>Winner</th>
+				<th>Runner-up</th>
+				<th>Count</th>
+				<th>Odds</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for match, count in draws.items() %}
+		{% if count != 0 %}
+			<tr>
+				<td>{{ match[0][2] }}</td>
+				<td>{{ match[1][2] }}</td>
+				<td>{{ count }}</td>
+				<td>{{ format_odds(count / n) }}</td>
+			</tr>
+		{% endif %}
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}
