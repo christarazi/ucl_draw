@@ -1,6 +1,6 @@
 '''
-This runs a simulation of the Round of 16
-UEFA Champions League Draw of the 2016-2017 season.
+This file contains the simulator code for simulating the Round of 16 in the
+UEFA Champions League for the 2016-2017 season.
 '''
 
 from collections import defaultdict
@@ -54,16 +54,16 @@ def get_optimal_draw(vd, runners_up, winners):
         if len(vd[ru]) == 1:
             return ru, vd[ru][0]
 
-    # Otherwise, draw a random runner up and find the
-    # least common winner to avoid conflicts
+    # Otherwise, draw a random runner up and find the least common winner to
+    # avoid conflicts.
     ru = random.choice(runners_up)
     teams = {}
     # Only choose teams the runner up can draw, init them to zero.
     for team in vd[ru]:
         teams[team] = teams.get(team, 0)
 
-    # Count the occurances of the teams the runner up can draw from above.
-    # Return the minimum occuring one to avoid conflicts.
+    # Count the occurrences of the teams the runner up can draw from above.
+    # Return the minimum occurring one to avoid conflicts.
     for r in runners_up:
         for team in vd[r]:
             if team in teams:
