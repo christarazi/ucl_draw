@@ -60,6 +60,33 @@ def generate_valid_draws(winners, runners_up):
                 vd[runner_up].append(winner)
     return vd
 
+def get_total_possible_draws():
+    '''
+    This function calculates the total number of possible outcomes in the draw.
+    Source:
+    https://gist.github.com/joriki/4345452
+    http://math.stackexchange.com/q/262629
+
+    Returns: total number of outcomes, |count|
+    '''
+    count = 0
+    paired = [False] * 8        # 8 teams on each side
+
+    def recurse(n):
+        nonlocal count
+        if n == 8:
+            count += 1
+        else:
+            for i in range(8):
+                if i != n and not paired[i] and \
+                        group_winners[n][1] != group_runners[i][1]:
+                            paired[i] = True
+                            recurse(n + 1)
+                            paired[i] = False
+    #--------------------------------------------------------------------------
+    recurse(0)
+    return count
+
 def get_optimal_draw(vd, runners_up, winners):
     '''
     Ensures that the draw is optimal by forcing certain moves such as when
