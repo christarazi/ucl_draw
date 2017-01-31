@@ -32,6 +32,9 @@ valid_draws = defaultdict(list) # Holds all valid draws
 draws = {}                      # Holds the count of the simulations
 
 def init_draws():
+    '''
+    Initialize |draws| and |valid_draws| to their default values.
+    '''
     for winner in group_winners:
         for runner_up in group_runners:
             if winner[0] != runner_up[0] and winner[1] != runner_up[1]:
@@ -40,6 +43,16 @@ def init_draws():
     return
 
 def generate_valid_draws(winners, runners_up):
+    '''
+    Generates all valid draws based on |winners| and |runners_up|.
+    Specifically, teams are only matched up if they are from different
+    countries and from different groups. For example, Bayern Munich cannot
+    draw Borussia Dortmund because they're both from Germany. Similarly,
+    Sevilla cannot draw Juventus because they're both in the same group.
+    This is what is meant by "generating valid draws".
+
+    Returns: dict of valid draws, |vd|
+    '''
     vd = defaultdict(list)
     for winner in winners:
         for runner_up in runners_up:
@@ -48,8 +61,19 @@ def generate_valid_draws(winners, runners_up):
     return vd
 
 def get_optimal_draw(vd, runners_up, winners):
-    # First check if there is a team with only
-    # one possible, and force that draw
+    '''
+    Ensures that the draw is optimal by forcing certain moves such as when
+    teams only have one possible draw. Also when the draw is more than halfway
+    completed, there are multiple runners up which have the same winner in
+    common. To prevent conflicts, the winner which occurs the least in the
+    pool of runners up must be chosen. If you watch the live draw on TV, you'll
+    notice that the administrators will do this (if it is necessary) when the
+    draw is halfway through.
+
+    Returns: a pair (or tuple) of a runner up |ru| and a winner
+    '''
+    # First check if there is a team with only one possible draw,
+    # and force that draw.
     for ru in runners_up:
         if len(vd[ru]) == 1:
             return ru, vd[ru][0]
@@ -72,6 +96,9 @@ def get_optimal_draw(vd, runners_up, winners):
     return ru, min(teams, key=teams.get)
 
 def simulate_draw():
+    '''
+    Simulates a single draw.
+    '''
     # Make copies of the lists of teams before each simulation.
     # Thanks to a comment on reddit for the suggestion.
     tmp_group_winners = copy.copy(group_winners)
@@ -104,13 +131,15 @@ def simulate_draw():
 # -----------------------------------------------------------------------------
 
 def execute_simulation(n):
+    '''
+    Executes the simulations |n| times. This function is invoked when the user
+    clicks the button to run the simulation.
+
+    Returns: the simulation, |draws|
+    '''
     init_draws()
     for i in range(n):
         simulate_draw()
 
-    # for match, count in draws.items():
-    #     if count != 0:
-    #         print("{:18} {} {:18}".format(match[0][2], "vs", match[1][2]),
-    #                 "|", count, "/", n, "=", "{0:.5}".format(count / n))
     return draws
 
