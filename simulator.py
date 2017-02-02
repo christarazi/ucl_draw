@@ -4,7 +4,9 @@ UEFA Champions League for the 2016-2017 season.
 '''
 
 from collections import defaultdict
-import sys, random, copy
+import sys
+import random
+import copy
 
 group_winners = [
     ("A", "ENG", "Arsenal"),
@@ -28,8 +30,9 @@ group_runners = [
     ("H", "SPA", "Sevilla")
 ]
 
-valid_draws = defaultdict(list) # Holds all valid draws
-draws = {}                      # Holds the count of the simulations
+valid_draws = defaultdict(list)  # Holds all valid draws
+draws = {}                       # Holds the count of the simulations
+
 
 def init_draws():
     '''
@@ -41,6 +44,7 @@ def init_draws():
                 draws[(winner, runner_up)] = 0
                 valid_draws[runner_up].append(winner)
     return
+
 
 def generate_valid_draws(winners, runners_up):
     '''
@@ -59,6 +63,7 @@ def generate_valid_draws(winners, runners_up):
             if winner[0] != runner_up[0] and winner[1] != runner_up[1]:
                 vd[runner_up].append(winner)
     return vd
+
 
 def get_total_possible_draws():
     '''
@@ -80,12 +85,13 @@ def get_total_possible_draws():
             for i in range(8):
                 if i != n and not paired[i] and \
                         group_winners[n][1] != group_runners[i][1]:
-                            paired[i] = True
-                            recurse(n + 1)
-                            paired[i] = False
-    #--------------------------------------------------------------------------
+                    paired[i] = True
+                    recurse(n + 1)
+                    paired[i] = False
+    # -------------------------------------------------------------------------
     recurse(0)
     return count
+
 
 def get_optimal_draw(vd, runners_up, winners):
     '''
@@ -122,6 +128,7 @@ def get_optimal_draw(vd, runners_up, winners):
 
     return ru, min(teams, key=teams.get)
 
+
 def simulate_draw():
     '''
     Simulates a single draw.
@@ -136,7 +143,8 @@ def simulate_draw():
         # When half-way complete, try to avoid conflicts
         if len(tmp_group_runners) < 5:
             runner_up, winner = get_optimal_draw(tmp_valid_draws,
-                    tmp_group_runners, tmp_group_winners)
+                                                 tmp_group_runners,
+                                                 tmp_group_winners)
         else:
             # Otherwise, draw a runner up and winner normally
             runner_up = random.choice(tmp_group_runners)
@@ -151,11 +159,12 @@ def simulate_draw():
 
         # Regenerate valid draws
         tmp_valid_draws = generate_valid_draws(tmp_group_winners,
-                tmp_group_runners)
+                                               tmp_group_runners)
 
     return
 
 # -----------------------------------------------------------------------------
+
 
 def execute_simulation(n):
     '''
@@ -169,4 +178,3 @@ def execute_simulation(n):
         simulate_draw()
 
     return draws
-
