@@ -171,10 +171,35 @@ def execute_simulation(n):
     Executes the simulations |n| times. This function is invoked when the user
     clicks the button to run the simulation.
 
-    Returns: the simulation, |draws|
+    Returns: simulation results, list of winners, list of runners up
+             |draws|,            |group_winners|, |group_runners|
     '''
     init_draws()
     for i in range(n):
         simulate_draw()
 
-    return draws
+    return draws, group_winners, group_runners
+
+
+def pretty_table(draws):
+    '''
+    Converts |draws| into a nicely formatted table. |table| is a list of
+    sub-lists, with each sub-list containing a winner from |group_winners| and
+    all the drawn runner ups from |group_runners|. Each sub-list is sorted by
+    the highest odds, so when looking at the table, it is easy to see what is
+    the most likely draw.
+
+    Returns: formatted table containing the match ups, |table|
+    '''
+    table = []
+    for w in group_winners:
+        matchup = []
+        for r in group_runners:
+            odds = draws.get((w, r), None)
+            if odds and draws[(w, r)] != 0:
+                matchup.append((w, r, odds))
+
+        # Sort by highest odds
+        table.append(sorted(matchup, key=lambda x: x[2], reverse=True))
+
+    return table

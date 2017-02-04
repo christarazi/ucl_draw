@@ -3,28 +3,33 @@
 <div class=results>
 	<pre>Number of simulations: {{ n }}</pre>
 	<pre>Seconds taken: {{ time }}</pre>
-	<table class="pure-table pure-table-horizontal">
-		<thead>
-			<tr>
-				<th>Winner</th>
-				<th>Runner-up</th>
-				<th>Count</th>
-				<th>Odds</th>
-			</tr>
-		</thead>
-		<tbody>
-		{# Sort draws first then iterate #}
-		{% for match in draws|sort %}
-		{% if draws[match] != 0 %}
-			<tr>
-				<td>{{ match[0][2] }}</td>
-				<td>{{ match[1][2] }}</td>
-				<td>{{ draws[match] }}</td>
-				<td>{{ format_odds(draws[match] / n) }}</td>
-			</tr>
-		{% endif %}
-		{% endfor %}
-		</tbody>
-	</table>
+		<table class="pure-table pure-table-bordered">
+			<thead>
+				<tr>
+					<th>Runners up</th>
+					<th colspan="8">Winners</th>
+				</tr>
+				<tr>
+				<th></th>
+				{% for w in winners %}
+					<th>{{ w[2] }}</th>
+				{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for r in runners_up %}
+					<tr>
+						<td><strong>{{ r[2] }}</strong></td>
+					{% for w in winners %}
+						{% if draws.get((w, r), None) %}
+						<td>{{ format_odds((draws[(w, r)] / n) * 100) }}%</td>
+						{% else %}
+						<td>-</td>
+						{% endif %}
+					{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 </div>
 {% endblock %}

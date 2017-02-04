@@ -22,6 +22,7 @@
 	.home-menu {
 		background: #2d3e50;
 	}
+
 	.pure-menu.pure-menu-fixed {
 		/* Fixed menus normally have a border at the bottom. */
 		border-bottom: none;    z-index: 4;
@@ -40,11 +41,21 @@
 	.home-menu a {
 		color: #6FBEF3;
 	}
+
 	.home-menu li a:hover,
 	.home-menu li a:focus {
 		background: none;
 		border: none;
 		color: #AECFE5;
+	}
+
+	table {
+		margin-bottom: 10px;
+		text-align: center;
+	}
+
+	.pure-table thead {
+		text-align: center;
 	}
 
 	/*
@@ -122,7 +133,7 @@
 </div>
 
 <div class="main">
-<h2>UCL Round of 16 Draw Simulator 2016-2017</h2>
+<h2>UCL Round of 16 2016-2017 Draw Simulator</h2>
 {% with messages = get_flashed_messages() %}
 	{% if messages %}
 		<div class=flashes>

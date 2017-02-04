@@ -21,9 +21,10 @@ def index():
                 flash("Error: Number must be greater than zero.")
             else:
                 start = time.perf_counter()
-                draws = simulator.execute_simulation(n)
+                draws, gw, gr = simulator.execute_simulation(n)
                 end = time.perf_counter()
-                return render_template("results.html", draws=draws, n=n, time=end-start)
+                return render_template("results.html", draws=draws, n=n, time=end - start,
+                                       winners=gw, runners_up=gr)
         except Exception as e:
             print(e)
             flash("Error: Tricky tricky, only numbers are accepted here.")
