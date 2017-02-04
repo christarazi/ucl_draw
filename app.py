@@ -31,8 +31,6 @@ def index():
 
     return render_template("form.html")
 
-    if __name__ == "__main__":
-        app.run()
 
 @app.context_processor
 def utility_processor():
@@ -41,3 +39,7 @@ def utility_processor():
         return "{0:.5}".format(odds)
 
     return dict(format_odds=format_odds)
+
+
+if __name__ == "__main__":
+    app.run()
