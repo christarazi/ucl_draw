@@ -1,12 +1,14 @@
 from flask import Flask, render_template, redirect, \
     url_for, request, flash, escape
 
-import os, time
-import simulator # Import simulator code
+import os
+import time
+import simulator  # Import simulator.py code
 
 app = Flask(__name__)
 
 app.secret_key = os.urandom(24)
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -23,8 +25,13 @@ def index():
                 start = time.perf_counter()
                 draws, gw, gr = simulator.execute_simulation(n)
                 end = time.perf_counter()
-                return render_template("results.html", draws=draws, n=n, time=end - start,
-                                       winners=gw, runners_up=gr)
+                return render_template(
+                    "results.html",
+                    draws=draws,
+                    n=n,
+                    time=end - start,
+                    winners=gw,
+                    runners_up=gr)
         except Exception as e:
             print(e)
             flash("Error: Tricky tricky, only numbers are accepted here.")
