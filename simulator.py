@@ -33,8 +33,12 @@ group_runners = [
 valid_draws = defaultdict(list)  # Holds all valid draws
 draws = {}                       # Holds the count of the simulations
 
+# -----------------------------------------------------------------------------
+# Private API - only used within this file
+# -----------------------------------------------------------------------------
 
-def init_draws():
+
+def _init_draws():
     '''
     Initialize |draws| and |valid_draws| to their default values.
     '''
@@ -46,7 +50,7 @@ def init_draws():
     return
 
 
-def generate_valid_draws(winners, runners_up):
+def _generate_valid_draws(winners, runners_up):
     '''
     Generates all valid draws based on |winners| and |runners_up|.
     Specifically, teams are only matched up if they are from different
@@ -65,35 +69,7 @@ def generate_valid_draws(winners, runners_up):
     return vd
 
 
-def get_total_possible_draws():
-    '''
-    This function calculates the total number of possible outcomes in the draw.
-    Source:
-    https://gist.github.com/joriki/4345452
-    http://math.stackexchange.com/q/262629
-
-    Returns: total number of outcomes, |count|
-    '''
-    count = 0
-    paired = [False] * 8        # 8 teams on each side
-
-    def recurse(n):
-        nonlocal count
-        if n == 8:
-            count += 1
-        else:
-            for i in range(8):
-                if i != n and not paired[i] and \
-                        group_winners[n][1] != group_runners[i][1]:
-                    paired[i] = True
-                    recurse(n + 1)
-                    paired[i] = False
-    # -------------------------------------------------------------------------
-    recurse(0)
-    return count
-
-
-def get_optimal_draw(vd, runners_up, winners):
+def _get_optimal_draw(vd, runners_up, winners):
     '''
     Ensures that the draw is optimal by forcing certain moves such as when
     teams only have one possible draw. Also when the draw is more than halfway
@@ -129,7 +105,7 @@ def get_optimal_draw(vd, runners_up, winners):
     return ru, min(teams, key=teams.get)
 
 
-def simulate_draw():
+def _simulate_draw():
     '''
     Simulates a single draw.
     '''
@@ -142,9 +118,9 @@ def simulate_draw():
     while tmp_group_runners and tmp_group_winners:
         # When half-way complete, try to avoid conflicts
         if len(tmp_group_runners) < 5:
-            runner_up, winner = get_optimal_draw(tmp_valid_draws,
-                                                 tmp_group_runners,
-                                                 tmp_group_winners)
+            runner_up, winner = _get_optimal_draw(tmp_valid_draws,
+                                                  tmp_group_runners,
+                                                  tmp_group_winners)
         else:
             # Otherwise, draw a runner up and winner normally
             runner_up = random.choice(tmp_group_runners)
@@ -158,12 +134,44 @@ def simulate_draw():
         draws[(winner, runner_up)] += 1
 
         # Regenerate valid draws
-        tmp_valid_draws = generate_valid_draws(tmp_group_winners,
-                                               tmp_group_runners)
+        tmp_valid_draws = _generate_valid_draws(tmp_group_winners,
+                                                tmp_group_runners)
 
     return
 
 # -----------------------------------------------------------------------------
+# Public API - invoked from outside this file
+# -----------------------------------------------------------------------------
+
+
+def count_possible_draws():
+    '''
+    This function calculates the total number of possible outcomes in the draw.
+    Source:
+    https://gist.github.com/joriki/4345452
+    http://math.stackexchange.com/q/262629
+
+    Returns: total number of outcomes, |count|
+    '''
+    count = 0
+    paired = [False] * 8        # 8 teams on each side
+
+    # Start of recurse() ------------------------------------------------------
+    def recurse(n):
+        nonlocal count
+        if n == 8:
+            count += 1
+        else:
+            for i in range(8):
+                if i != n and not paired[i] and \
+                        group_winners[n][1] != group_runners[i][1]:
+                    paired[i] = True
+                    recurse(n + 1)
+                    paired[i] = False
+    # End of recurse() --------------------------------------------------------
+
+    recurse(0)
+    return count
 
 
 def execute_simulation(n):
@@ -174,9 +182,9 @@ def execute_simulation(n):
     Returns: simulation results, list of winners, list of runners up
              |draws|,            |group_winners|, |group_runners|
     '''
-    init_draws()
+    _init_draws()
     for i in range(n):
-        simulate_draw()
+        _simulate_draw()
 
     return draws, group_winners, group_runners
 
