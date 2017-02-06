@@ -10,6 +10,23 @@
 <body>
 <style>
 	/*
+	 * -- BASE STYLES --
+	 */
+	body {
+		line-height: 1.7em;
+		font-size: 13px;
+	}
+
+	table {
+		margin-bottom: 10px;
+		text-align: center;
+	}
+
+	pre {
+		white-space: pre-wrap;
+	}
+
+	/*
 	 * -- MENU STYLES --
 	 * I want to customize how my .pure-menu looks at the top of the page
 	 */
@@ -25,7 +42,8 @@
 
 	.pure-menu.pure-menu-fixed {
 		/* Fixed menus normally have a border at the bottom. */
-		border-bottom: none;    z-index: 4;
+		border-bottom: none;
+		z-index: 4;
 	}
 
 	.home-menu .pure-menu-heading {
@@ -47,11 +65,6 @@
 		background: none;
 		border: none;
 		color: #AECFE5;
-	}
-
-	table {
-		margin-bottom: 10px;
-		text-align: center;
 	}
 
 	.pure-table thead {
@@ -81,6 +94,13 @@
 		}
 		.home-menu ul {
 			float: right;
+		}
+	}
+
+	@media (max-width: 425px) {
+
+		.home-menu {
+			font-size: 85%
 		}
 	}
 </style>
