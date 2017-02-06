@@ -40,6 +40,20 @@ def index():
     return render_template("form.html")
 
 
+@app.route("/count", methods=["GET"])
+def count():
+    try:
+        start = time.perf_counter()
+        count = simulator.count_possible_draws()
+        end = time.perf_counter()
+        return render_template("count.html", count=count, time=end - start)
+    except Exception as e:
+        print(e)
+        flash("Error: Something happened while counting all possibilities, try again.")
+
+    return redirect("/")
+
+
 @app.context_processor
 def utility_processor():
     def format_odds(odds):
