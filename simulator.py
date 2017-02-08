@@ -57,7 +57,8 @@ def _generate_valid_draws(winners, runners_up):
     countries and from different groups. For example, Bayern Munich cannot
     draw Borussia Dortmund because they're both from Germany. Similarly,
     Sevilla cannot draw Juventus because they're both in the same group.
-    This is what is meant by "generating valid draws".
+    This is what is meant by "generating valid draws". For more info, check out
+    UEFA's website on the rules of the draw.
 
     Returns: dict of valid draws, |vd|
     '''
@@ -71,13 +72,20 @@ def _generate_valid_draws(winners, runners_up):
 
 def _get_optimal_draw(vd, runners_up, winners):
     '''
-    Ensures that the draw is optimal by forcing certain moves such as when
-    teams only have one possible draw. Also when the draw is more than halfway
-    completed, there are multiple runners up which have the same winner in
-    common. To prevent conflicts, the winner which occurs the least in the
-    pool of runners up must be chosen. If you watch the live draw on TV, you'll
-    notice that the administrators will do this (if it is necessary) when the
-    draw is halfway through.
+    Ensures that the draw is optimal by forcing certain moves. There are two
+    scenarios where a move must be forced:
+
+    1) When a team only has one possible team left to draw.
+    This scenario is simple to solve.
+
+    2) When there are multiple runners up which have the same winner in
+    common.
+    This scenario is handled by choosing the winner which occurs the
+    least in the pool of runners-up. This is done to prevent conflicts, e.g. if
+    the least winner is not chosen, then there will be a duplicate draw. In
+    other words, a winner could be drawn to face two different runners-up. If
+    you watch the live draw on TV, you'll notice that the administrators will
+    do this (if it is necessary) when the draw is halfway through.
 
     Returns: a pair (or tuple) of a runner up |ru| and a winner
     '''
@@ -193,7 +201,7 @@ def pretty_table(draws):
     '''
     Converts |draws| into a nicely formatted table. |table| is a list of
     sub-lists, with each sub-list containing a winner from |group_winners| and
-    all the drawn runner ups from |group_runners|. Each sub-list is sorted by
+    all the drawn runners-up from |group_runners|. Each sub-list is sorted by
     the highest odds, so when looking at the table, it is easy to see what is
     the most likely draw.
 
