@@ -12,7 +12,7 @@ Check it out! https://ucldraw.herokuapp.com/
 ## TODO
 
  - Add group stages
- - Add round of 8
+ - ~~Add round of 8~~ No need as it's just a simple draw with no constraints.
  - ~~Add functionality to compute the number of possible
  draws as seen here: https://gist.github.com/joriki/4345452~~
 
