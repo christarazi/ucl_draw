@@ -16,3 +16,9 @@ Check it out! https://ucldraw.herokuapp.com/
  - ~~Add functionality to compute the number of possible
  draws as seen here: https://gist.github.com/joriki/4345452~~
 
+## License
+
+This program is free software, distributed under the terms of the [GNU] General
+Public License as published by the Free Software Foundation, version 3 of the
+License (or any later version).  All files under this project are under this
+license.  For more information, see the file LICENSE.
