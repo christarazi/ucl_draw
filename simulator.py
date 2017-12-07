@@ -24,25 +24,25 @@ import random
 import copy
 
 group_winners = [
-    ("A", "ENG", "Arsenal"),
-    ("B", "ITA", "Napoli"),
-    ("C", "SPA", "Barcalona"),
-    ("D", "SPA", "Atletico Madrid"),
-    ("E", "FRA", "Monaco"),
-    ("F", "GER", "Borussia Dortmund"),
-    ("G", "ENG", "Leicester City"),
-    ("H", "ITA", "Juventus")
+    ("A", "ENG", "Manchester United"),
+    ("B", "FRA", "PSG"),
+    ("C", "ITA", "AS Roma"),
+    ("D", "SPA", "FC Barcelona"),
+    ("E", "ENG", "Liverpool"),
+    ("F", "ENG", "Manchester City"),
+    ("G", "TUR", "Besiktas"),
+    ("H", "ENG", "Tottenham Hotspur")
 ]
 
 group_runners = [
-    ("A", "FRA", "PSG"),
-    ("B", "POR", "Benfica"),
-    ("C", "ENG", "Manchester City"),
-    ("D", "GER", "Bayern Munich"),
-    ("E", "GER", "Bayer Leverkusen"),
-    ("F", "SPA", "Real Madrid"),
+    ("A", "SWT", "FC Basel"),
+    ("B", "GER", "Bayern Munich"),
+    ("C", "ENG", "Chelsea"),
+    ("D", "ITA", "Juventus"),
+    ("E", "SPA", "Sevilla"),
+    ("F", "UKR", "Shakhtar Donetsk"),
     ("G", "POR", "Porto"),
-    ("H", "SPA", "Sevilla")
+    ("H", "SPA", "Real Madrid")
 ]
 
 valid_draws = defaultdict(list)  # Holds all valid draws
