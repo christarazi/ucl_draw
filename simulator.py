@@ -128,6 +128,17 @@ def _get_optimal_draw(vd, runners_up, winners):
     return ru, min(teams, key=teams.get)
 
 
+def _need_optimal_draw(vd, runners_up):
+    '''
+    Heuristic for avoiding a conflict early on in the draw.
+    '''
+    # Check if there is a team with less than 3 possibilities.
+    for ru in runners_up:
+        if len(vd[ru]) < 3:
+            return True
+    return False
+
+
 def _simulate_draw():
     '''
     Simulates a single draw.
@@ -140,7 +151,8 @@ def _simulate_draw():
 
     while tmp_group_runners and tmp_group_winners:
         # When half-way complete, try to avoid conflicts
-        if len(tmp_group_runners) < 5:
+        if (_need_optimal_draw(tmp_valid_draws, tmp_group_runners) or
+                len(tmp_group_runners) < 5):
             runner_up, winner = _get_optimal_draw(tmp_valid_draws,
                                                   tmp_group_runners,
                                                   tmp_group_winners)
@@ -159,7 +171,6 @@ def _simulate_draw():
         # Regenerate valid draws
         tmp_valid_draws = _generate_valid_draws(tmp_group_winners,
                                                 tmp_group_runners)
-
     return
 
 # -----------------------------------------------------------------------------
