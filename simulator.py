@@ -19,9 +19,8 @@ UEFA Champions League for the 2016-2017 season.
 '''
 
 from collections import defaultdict
-import sys
-import random
 import copy
+import random
 
 group_winners = [
     ("A", "ENG", "Manchester United"),
@@ -85,7 +84,7 @@ def _generate_valid_draws(winners, runners_up):
     return vd
 
 
-def _get_optimal_draw(vd, runners_up, winners):
+def _get_optimal_draw(vd, runners_up):
     '''
     Ensures that the draw is optimal by forcing certain moves. There are two
     scenarios where a move must be forced:
@@ -100,32 +99,37 @@ def _get_optimal_draw(vd, runners_up, winners):
     the least winner is not chosen, then there will be a duplicate draw. In
     other words, a winner could be drawn to face two different runners-up. If
     you watch the live draw on TV, you'll notice that the administrators will
-    do this (if it is necessary) when the draw is halfway through.
+    do this (if it is necessary).
 
-    Returns: a pair (or tuple) of a runner up |ru| and a winner
+    Returns: a pair (or tuple) of a runner up and a least occurring winner
     '''
-    # First check if there is a team with only one possible draw,
-    # and force that draw.
-    for ru in runners_up:
-        if len(vd[ru]) == 1:
-            return ru, vd[ru][0]
+    # Handle the first scenario.
+    for r in runners_up:
+        if len(vd[r]) == 1:
+            return r, vd[r][0]
 
-    # Otherwise, draw a random runner up and find the least common winner to
-    # avoid conflicts.
-    ru = random.choice(runners_up)
-    teams = {}
-    # Only choose teams the runner up can draw, init them to zero.
-    for team in vd[ru]:
-        teams[team] = teams.get(team, 0)
+    # Second scenario: draw a random runner up and find the least common winner
+    # to avoid conflicts.
+    possible_winners = {}
+    runner_up = random.choice(runners_up)
+    # Only choose teams the runner up can draw; begin counting.
+    for team in vd[runner_up]:
+        possible_winners[team] = possible_winners.get(team, 0)
 
-    # Count the occurrences of the teams the runner up can draw from above.
-    # Return the minimum occurring one to avoid conflicts.
+    # Count the number of times a particular runner up plays a winner.
     for r in runners_up:
         for team in vd[r]:
-            if team in teams:
-                teams[team] = teams.get(team, 0) + 1
+            if team in possible_winners:
+                possible_winners[team] = possible_winners.get(team, 0) + 1
 
-    return ru, min(teams, key=teams.get)
+    # Choose random least winner if there are multiple possibilities.
+    # Return the minimum occurring one to avoid conflicts.
+    min_occurances = min(possible_winners.values())
+    least_winners = [w for w in possible_winners
+                     if possible_winners[w] == min_occurances]
+    least_winner = random.choice(least_winners)
+
+    return runner_up, least_winner
 
 
 def _need_optimal_draw(vd, runners_up):
@@ -154,8 +158,7 @@ def _simulate_draw():
         if (_need_optimal_draw(tmp_valid_draws, tmp_group_runners) or
                 len(tmp_group_runners) < 5):
             runner_up, winner = _get_optimal_draw(tmp_valid_draws,
-                                                  tmp_group_runners,
-                                                  tmp_group_winners)
+                                                  tmp_group_runners)
         else:
             # Otherwise, draw a runner up and winner normally
             runner_up = random.choice(tmp_group_runners)
