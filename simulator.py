@@ -15,7 +15,7 @@
 
 '''
 This file contains the simulator code for simulating the Round of 16 in the
-UEFA Champions League for the 2016-2017 season.
+UEFA Champions League for the 2018-2019 season.
 '''
 
 from collections import defaultdict
@@ -23,25 +23,25 @@ import copy
 import random
 
 group_winners = [
-    ("A", "ENG", "Manchester United"),
-    ("B", "FRA", "PSG"),
-    ("C", "ITA", "AS Roma"),
-    ("D", "SPA", "FC Barcelona"),
-    ("E", "ENG", "Liverpool"),
+    ("A", "GER", "Borussia Dortmund"),
+    ("B", "SPA", "FC Barcelona"),
+    ("C", "FRA", "PSG"),
+    ("D", "POR", "Porto"),
+    ("E", "GER", "Bayern Munich"),
     ("F", "ENG", "Manchester City"),
-    ("G", "TUR", "Besiktas"),
-    ("H", "ENG", "Tottenham Hotspur")
+    ("G", "SPA", "Real Madrid"),
+    ("H", "ITA", "Juventus")
 ]
 
 group_runners = [
-    ("A", "SWT", "FC Basel"),
-    ("B", "GER", "Bayern Munich"),
-    ("C", "ENG", "Chelsea"),
-    ("D", "ITA", "Juventus"),
-    ("E", "SPA", "Sevilla"),
-    ("F", "UKR", "Shakhtar Donetsk"),
-    ("G", "POR", "Porto"),
-    ("H", "SPA", "Real Madrid")
+    ("A", "SPA", "Atlético Madrid"),
+    ("B", "ENG", "Tottenham Hotspur"),
+    ("C", "ENG", "Liverpool"),
+    ("D", "GER", "Schalke"),
+    ("E", "NED", "Ajax"),
+    ("F", "FRA", "Lyon"),
+    ("G", "ITA", "Roma"),
+    ("H", "ENG", "Manchester United")
 ]
 
 valid_draws = defaultdict(list)  # Holds all valid draws
@@ -156,7 +156,7 @@ def _simulate_draw():
     while tmp_group_runners and tmp_group_winners:
         # When half-way complete, try to avoid conflicts
         if (_need_optimal_draw(tmp_valid_draws, tmp_group_runners) or
-                len(tmp_group_runners) < 5):
+                len(tmp_group_runners) < 6):
             runner_up, winner = _get_optimal_draw(tmp_valid_draws,
                                                   tmp_group_runners)
         else:
