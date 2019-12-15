@@ -1,4 +1,9 @@
 # ucl_draw
+
+**This repo has moved to**: https://gitlab.com/christarazi/ucl_draw
+
+---
+
 A web app to simulate the draw of the Round of 16 in the UEFA Champions League.
 
 Check it out! https://ucldraw.herokuapp.com/
